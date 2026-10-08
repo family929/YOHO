@@ -267,27 +267,27 @@ footer p { margin: 6px 0; }
 const LINKS = {
   // 自社の洗剤（広告表記なし）
   ownDetergent: {
-    url: 'https://example.com/family-cleaning/detergent',
+    url: 'https://family929.stores.jp/',
     label: 'ファミリークリーニングの洗剤を見る',
   },
-  // アフィリエイト商品（「広告を含みます」をこの近くにだけ表示）
+  // シミ抜き洗剤の比較記事（自社サイトの記事。「広告を含みます」の表記のみ残す）
   affiliate: {
-    url: 'https://example.com/affiliate/laundry-goods',
-    label: 'おすすめの洗濯グッズを見る',
+    url: 'https://familycleaning.jp/stain-remover-comparison-utamaro-oxi-torori/',
+    label: 'シミ抜き洗剤の比較記事を読む',
   },
   // 宅配クリーニングの申し込み
   takuhai: {
-    url: 'https://example.com/family-cleaning/takuhai',
+    url: 'https://familycleaning.jp/delivery-cleaning/',
     label: '宅配クリーニングを申し込む',
   },
-  // 家庭洗濯・ドライ・ウエットのすべてが禁止の表示のときの相談窓口（仮URL）
+  // 家庭洗濯・ドライ・ウエットのすべてが禁止の表示のときの相談窓口（公式LINE）
   consult: {
-    url: 'https://example.com/family-cleaning/consult',
+    url: 'https://page.line.me/801ktflm?oat_content=url&openQrModal=true',
     label: 'お預かりできるか、まずご相談ください',
   },
-  // 漂白禁止（シミがある）ときの染み抜き相談窓口（仮URL）
+  // 漂白禁止（シミがある）ときの染み抜き相談窓口（公式LINE）
   shiminuki: {
-    url: 'https://example.com/family-cleaning/shiminuki',
+    url: 'https://page.line.me/801ktflm?oat_content=url&openQrModal=true',
     label: '染み抜きの相談をする',
   },
 };
@@ -563,10 +563,9 @@ const VERDICT = {
 
 function exitLink(key, sub, note) {
   const l = LINKS[key];
-  const rel = key === 'affiliate' ? 'sponsored noopener' : 'noopener';
-  return `<a class="exit${sub ? ' sub' : ''}" href="${esc(l.url)}" target="_blank" rel="${rel}">${esc(l.label)}${note ? `<small>${note}</small>` : ''}</a>`;
+  return `<a class="exit${sub ? ' sub' : ''}" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}${note ? `<small>${note}</small>` : ''}</a>`;
 }
-// 「広告を含みます」はアフィリエイト商品の近くだけに表示する
+// 「広告を含みます」はアフィリエイト商品の近くだけに表示する（自社記事のため rel は noopener のみ）
 const affiliateBox = () => `<div class="ad-box"><span class="ad-note">広告を含みます</span>${exitLink('affiliate', true)}</div>`;
 
 function exitsFor(v) {
@@ -579,7 +578,7 @@ function exitsFor(v) {
       exitLink('takuhai', true, 'ご自宅から出すだけ。北九州のファミリークリーニング');
   }
   if (v.allProhibited) {
-    return exitLink('consult', false, 'まずは状態を見てご案内します。北九州のファミリークリーニング');
+    return exitLink('consult', false, '公式LINEが開きます。まずは状態を見てご案内します。北九州のファミリークリーニング');
   }
   return exitLink('takuhai', false, 'ご自宅から出すだけ。北九州のファミリークリーニング');
 }
@@ -631,7 +630,7 @@ function render() {
       ${v.missingCats && v.missingCats.length ? `<p class="v-sub">まだ選んでいない分類：${esc(v.missingCats.join('・'))}</p>` : ''}
       ${v.reasons.length ? `<ul class="reasons">${v.reasons.map((r) => `<li>${r}</li>`).join('')}</ul>` : ''}
       <p class="guide">${v.guide}</p>
-      <div class="exits">${exitsFor(v)}${state.bleach === 'b_no' ? exitLink('shiminuki', true, '色や生地を傷めずに落とせるか、職人がご案内します') : ''}</div>
+      <div class="exits">${exitsFor(v)}${state.bleach === 'b_no' ? exitLink('shiminuki', true, '公式LINEが開きます。色や生地を傷めずに落とせるか、職人がご案内します') : ''}</div>
     </div>`;
   bar.className = 'bar-msg ' + meta.cls;
   bar.innerHTML = `判定：<b>${meta.title}</b>`;
