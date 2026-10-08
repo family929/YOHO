@@ -80,6 +80,7 @@
    基本
    ========================================================== */
 * { box-sizing: border-box; }
+html, body { height: 100%; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 64px; }
 body {
   margin: 0;
@@ -88,45 +89,35 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
   font-size: 16px;
   line-height: 1.7;
-  padding-bottom: calc(76px + env(safe-area-inset-bottom));
 }
 .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
 a { color: var(--accent); }
 button { font: inherit; color: inherit; }
 
-header.top { padding: 20px 0 8px; }
+/* 1画面1問の骨組み（スクロールなし・100dvh基準） */
+.step-shell { min-height: 100dvh; display: flex; flex-direction: column; }
+.step-shell > header.top { flex: 0 0 auto; }
+.step-main {
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 10px;
+  padding: 4px 16px;
+}
+.step-footer { flex: 0 0 auto; padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); }
+.step-q { font-family: var(--font-serif); font-size: 17px; margin: 0; text-align: center; }
+
+.result-main { padding-bottom: 8px; }
+
+@keyframes noren-fade { from { opacity: 0; } to { opacity: 1; } }
+.step-main, .result-main { animation: noren-fade .2s ease; }
+
+header.top { padding: 14px 0 8px; }
 .brand { font-size: 13px; color: var(--ink-sub); margin: 0; letter-spacing: .05em; }
-.noren-line { height: 2px; background: var(--accent); margin: 6px 0 12px; }
-h1 { font-family: var(--font-serif); font-size: 24px; line-height: 1.35; margin: 4px 0 8px; }
-.lead { margin: 0 0 4px; color: var(--ink-sub); font-size: 15px; }
+.noren-line { height: 2px; background: var(--accent); margin: 6px 0 10px; }
 
-/* 分類ナビ（上に固定） */
-nav.cats {
-  position: sticky; top: 0; z-index: 10;
-  background: var(--bg);
-  border-bottom: 1px solid var(--line);
-  margin: 8px -16px 0; padding: 8px 16px;
-  display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
-}
-nav.cats::-webkit-scrollbar { display: none; }
-nav.cats a {
-  flex: 0 0 auto;
-  text-decoration: none; color: var(--ink-sub);
-  background: transparent; border: none; border-bottom: 3px solid transparent;
-  border-radius: 0; padding: 6px 10px 5px; font-size: 14px; white-space: nowrap;
-}
-nav.cats a.done { color: var(--ink); border-bottom-color: var(--accent); font-weight: 700; }
-
-/* 分類ごとのカード */
-section.cat {
-  background: var(--card); border: 1px solid var(--line); border-radius: 4px;
-  box-shadow: var(--shadow);
-  margin: 16px 0; padding: 14px 14px 10px;
-}
-section.cat h2 { font-family: var(--font-serif); font-size: 19px; margin: 0 0 2px; }
-.cat-hint { font-size: 13px; color: var(--ink-sub); margin: 0 0 8px; }
-.group + .group { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
-.group h3 { font-size: 15px; margin: 0 0 6px; }
+/* 進み具合 */
+.progress-label { font-size: 13px; color: var(--ink-sub); margin: 0 0 6px; }
+.progress-bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); }
 
 .grid {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
@@ -134,21 +125,21 @@ section.cat h2 { font-family: var(--font-serif); font-size: 19px; margin: 0 0 2p
 @media (min-width: 520px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
 .sym {
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  min-height: 96px; padding: 8px 2px 6px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 68px; padding: 6px 2px 4px;
   background: var(--sym-bg); border: 2px solid var(--line); border-radius: 6px;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.sym svg { width: 48px; height: 48px; color: var(--ink); flex: 0 0 auto; }
-.sym .lbl { font-size: 13px; line-height: 1.3; margin-top: 4px; text-align: center; word-break: keep-all; overflow-wrap: anywhere; }
+.sym svg { width: 30px; height: 30px; color: var(--ink); flex: 0 0 auto; }
+.sym .lbl { font-size: 12px; line-height: 1.15; margin-top: 3px; text-align: center; word-break: keep-all; overflow-wrap: anywhere; }
 .sym[aria-pressed="true"] { border-color: var(--sel-line); background: var(--sel-bg); }
 .sym[aria-pressed="true"] .lbl { font-weight: 700; }
 .sym:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.sym.new .lbl::after { content: "2024新"; display: block; font-size: 10px; color: var(--accent); font-weight: 700; }
+.sym.new .lbl::after { content: "2024新"; display: block; font-size: 9px; color: var(--accent); font-weight: 700; }
 
 .none-btn {
-  margin-top: 8px; width: 100%;
+  margin-top: 2px; width: 100%;
   background: transparent; border: 1px dashed var(--line); border-radius: 4px;
   padding: 8px; font-size: 13px; color: var(--ink-sub); cursor: pointer;
   touch-action: manipulation;
@@ -181,7 +172,6 @@ section.cat h2 { font-family: var(--font-serif); font-size: 19px; margin: 0 0 2p
 .verdict.ok .v-title   { color: var(--ok); }
 .verdict.warn .v-title { color: var(--warn); }
 .verdict.pro .v-title  { color: var(--pro); }
-.verdict .v-sub { margin: 0 0 8px; }
 .verdict ul.reasons { margin: 0 0 12px; padding-left: 1.2em; }
 .verdict ul.reasons li { margin: 4px 0; }
 .verdict .guide { margin: 0; font-weight: 700; }
@@ -208,68 +198,17 @@ section.cat h2 { font-family: var(--font-serif); font-size: 19px; margin: 0 0 2p
   padding: 10px; color: var(--ink-sub); cursor: pointer;
 }
 
-/* 下に固定する判定バー */
-.bar {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-  background: var(--card); border-top: 1px solid var(--line);
-  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-}
-.bar-in { max-width: 640px; margin: 0 auto; display: flex; align-items: center; gap: 10px; }
-.bar-msg { flex: 1 1 auto; font-size: 14px; line-height: 1.4; min-width: 0; }
-.bar-msg b { font-size: 16px; }
-.bar-msg.ok b { color: var(--ok); }
-.bar-msg.warn b { color: var(--warn); }
-.bar-msg.pro b { color: var(--pro); }
-.bar a {
-  flex: 0 0 auto; text-decoration: none; background: var(--accent); color: var(--accent-ink);
-  border-radius: 4px; padding: 8px 14px; font-weight: 700; font-size: 14px;
-}
-.bar a[hidden] { display: none; }
-
 footer { font-size: 12.5px; color: var(--ink-sub); padding: 8px 0 24px; }
 footer p { margin: 6px 0; }
 
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .step-main, .result-main { animation: none; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <p class="brand">創業1970年　ファミリークリーニング</p>
-    <div class="noren-line" aria-hidden="true"></div>
-    <h1>洗濯表示チェッカー</h1>
-    <p class="lead">衣類のタグにある記号をタップしてください。家で洗えるか、どう洗えばいいかが分かります。</p>
-  </header>
-
-  <nav class="cats" id="cats" aria-label="分類"></nav>
-
-  <main>
-    <div id="sections"></div>
-
-    <section class="panel" aria-labelledby="meanings-h">
-      <h2 id="meanings-h">選んだ記号の意味</h2>
-      <div id="meanings"></div>
-    </section>
-
-    <section id="result" aria-live="polite"></section>
-    <button type="button" class="reset" id="reset">選び直す（すべてリセット）</button>
-  </main>
-
-  <footer>
-    <p>記号の種類と意味は、消費者庁の繊維製品品質表示規程が引用する JIS L 0001（2024年8月改正）にもとづいています。</p>
-    <p>2025年8月以前に作られた衣類では、アイロンの温度が改正前の値の場合があります（各記号の説明に記載）。2016年11月以前の旧表示（「中性」「手洗イ」など文字の入った記号）には対応していません。</p>
-    <p>判定は目安です。タグにある言葉（「単独洗い」「裏返して洗う」など）や素材の表示もあわせてご確認ください。</p>
-    <p>選んだ内容はこのページの中だけで使い、どこにも送信しません。</p>
-    <p>© ファミリークリーニング</p>
-  </footer>
-</div>
-
-<div class="bar" role="status">
-  <div class="bar-in">
-    <div class="bar-msg" id="bar-msg">タグの記号を選んでください</div>
-    <a href="#result" id="bar-link" hidden>結果を見る</a>
-  </div>
-</div>
+<div id="app"></div>
 
 <script>
 /* ==========================================================
@@ -466,7 +405,7 @@ const CATS = [
 ];
 
 /* ==========================================================
-   状態と画面の組み立て
+   状態と画面の組み立て（1画面1問。CATSの順にそのまま7画面になる）
    ========================================================== */
 const ITEM = {};   // id -> item
 const GROUP = {};  // groupId -> { group, cat }
@@ -481,53 +420,34 @@ const state = {}; // groupId -> itemId | NONE
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 
-function buildPage() {
-  $('#cats').innerHTML = CATS.map((c) => `<a href="#cat-${c.id}" data-cat="${c.id}">${c.name}</a>`).join('');
-  $('#sections').innerHTML = CATS.map((c) => `
-    <section class="cat" id="cat-${c.id}" aria-labelledby="h-${c.id}">
-      <h2 id="h-${c.id}">${c.name}</h2>
-      <p class="cat-hint">${c.hint}</p>
-      ${c.groups.map((g) => `
-        <div class="group" role="group" aria-label="${esc(g.title)}">
-          ${c.groups.length > 1 ? `<h3>${g.title}</h3>` : ''}
-          <div class="grid">
-            ${g.items.map((it) => `
-              <button type="button" class="sym${it.isNew ? ' new' : ''}" data-group="${g.id}" data-id="${it.id}" aria-pressed="false" aria-label="${esc(it.label)}">
-                ${it.svg}<span class="lbl">${it.label}</span>
-              </button>`).join('')}
-          </div>
-          <button type="button" class="none-btn" data-group="${g.id}" data-id="${NONE}" aria-pressed="false">${g.none}</button>
-        </div>`).join('')}
-    </section>`).join('');
+// 画面ごとの短い見出しと質問文（記号データ・判定ロジックは変えない。表示用の文言のみ）
+const STEP_LABEL = {
+  wash: '洗濯', bleach: '漂白', tumble: '乾燥機', natural: '干し方',
+  iron: 'アイロン', drycl: 'ドライクリーニング', wetcl: 'ウエットクリーニング',
+};
+const STEP_QUESTION = {
+  wash: '洗濯おけの記号はどれですか？',
+  bleach: '三角の記号はどれですか？',
+  tumble: '四角に丸の記号（乾燥機）はどれですか？',
+  natural: '四角の記号（干し方）はどれですか？',
+  iron: 'アイロンの記号はどれですか？',
+  drycl: '丸の記号（ドライクリーニング）はどれですか？',
+  wetcl: '丸の記号（ウエットクリーニング）はどれですか？',
+};
+const STEPS = [];
+CATS.forEach((c) => c.groups.forEach((g) => {
+  STEPS.push({ cat: c, group: g, label: STEP_LABEL[g.id], question: STEP_QUESTION[g.id] });
+}));
 
-  $('#sections').addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-group]');
-    if (!btn) return;
-    const g = btn.dataset.group;
-    const id = btn.dataset.id;
-    // 同じものをもう一度タップすると選択を外す
-    if (state[g] === id) delete state[g]; else state[g] = id;
-    render();
-  });
-  $('#reset').addEventListener('click', () => {
-    Object.keys(state).forEach((k) => delete state[k]);
-    render();
-    $('#cat-wash').scrollIntoView();
-  });
-}
+let step = 0;       // 0..STEPS.length-1 は質問画面。STEPS.length で結果画面
+let locked = false; // 0.3秒の自動遷移中は二重タップを防ぐ
 
 /* ==========================================================
    総合判定（迷ったら「プロに任せる」）
+   7画面すべてに答えてから呼ばれるので、未回答を前提にした分岐は持たない
    ========================================================== */
 function judge() {
-  const chosen = Object.keys(state);
-  if (chosen.length === 0) return { level: 'none' };
-
   const wash = state.wash;
-  if (wash === undefined) {
-    return { level: 'pro', reasons: ['洗濯（洗濯おけ）の記号がまだ選ばれていません。'],
-      guide: '「洗濯」の記号を選ぶと、家で洗えるかを判定できます。分からない場合は、無理に家で洗わずプロにお任せください。' };
-  }
   if (wash === NONE) {
     return { level: 'pro', reasons: ['洗濯おけの記号が見当たらない・分からない状態です。'],
       guide: '洗い方が分からない衣類は、無理に家で洗わずプロにお任せください。' };
@@ -544,27 +464,14 @@ function judge() {
   }
 
   const reasons = [];
-  chosen.forEach((g) => {
+  Object.keys(state).forEach((g) => {
     const it = ITEM[state[g]];
     if (it && it.level === 'warn' && !reasons.includes(it.reason)) reasons.push(it.reason);
   });
-
-  // 洗濯以外の分類がまだ選ばれていない場合は、言い切らずに案内する
-  const missingCats = CATS
-    .filter((c) => !c.groups.some((g) => state[g.id] !== undefined))
-    .map((c) => c.name);
-
-  const level = reasons.length ? 'warn' : 'ok';
-  let guide;
-  if (missingCats.length) {
-    guide = level === 'warn'
-      ? '洗濯の記号では、注意点を守れば家で洗えます。他の記号も選ぶと、さらに注意点が分かります。'
-      : '洗濯の記号では、洗濯機で洗えます。他の記号も選ぶと、注意点が分かります。';
-  } else {
-    guide = level === 'warn' ? '下の注意点を守れば、家で洗えます。' : 'ふだんどおり洗濯機で洗えます。';
+  if (reasons.length) {
+    return { level: 'warn', reasons, guide: '下の注意点を守れば、家で洗えます。' };
   }
-
-  return { level, reasons, guide, missingCats };
+  return { level: 'ok', reasons: [], guide: 'ふだんどおり洗濯機で洗えます。' };
 }
 
 const VERDICT = {
@@ -597,23 +504,79 @@ function exitsFor(v) {
   return exitLink('takuhai', false, 'ご自宅から出すだけ。北九州のファミリークリーニング');
 }
 
+/* ==========================================================
+   1画面1問の表示と、選ぶと自動で次へ進む動き
+   ========================================================== */
 function render() {
-  // 記号ボタン
-  document.querySelectorAll('button[data-group]').forEach((b) => {
-    b.setAttribute('aria-pressed', String(state[b.dataset.group] === b.dataset.id));
-  });
-  // 分類ナビ
-  document.querySelectorAll('#cats a').forEach((a) => {
-    const cat = CATS.find((c) => c.id === a.dataset.cat);
-    a.classList.toggle('done', cat.groups.some((g) => state[g.id] !== undefined));
-  });
+  if (step >= STEPS.length) renderResult();
+  else renderStep();
+}
 
-  // 選んだ記号の意味
+function choose(groupId, id) {
+  if (locked) return;
+  state[groupId] = id;
+  locked = true;
+  // 選んだ表示をその場で反映してから、0.3秒後に次の画面へ
+  document.querySelectorAll('#stepGrid button[data-id]').forEach((b) => {
+    b.setAttribute('aria-pressed', String(b.dataset.id === id));
+  });
+  const noneBtn = $('#stepNone');
+  if (noneBtn) noneBtn.setAttribute('aria-pressed', String(id === NONE));
+  setTimeout(() => {
+    locked = false;
+    step++;
+    render();
+  }, 300);
+}
+
+function renderStep() {
+  const s = STEPS[step];
+  const g = s.group;
+  const chosen = state[g.id];
+  const pct = Math.round(((step + 1) / STEPS.length) * 100);
+
+  $('#app').innerHTML = `
+    <div class="wrap step-shell">
+      <header class="top">
+        <p class="brand">創業1970年　ファミリークリーニング</p>
+        <div class="noren-line" aria-hidden="true"></div>
+        <p class="progress-label">${step + 1} / ${STEPS.length}　${esc(s.label)}</p>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </header>
+      <main class="step-main">
+        <p class="step-q" aria-live="polite">${esc(s.question)}</p>
+        <div class="grid" id="stepGrid">
+          ${g.items.map((it) => `
+            <button type="button" class="sym${it.isNew ? ' new' : ''}" data-id="${it.id}" aria-pressed="${chosen === it.id}" aria-label="${esc(it.label)}">
+              ${it.svg}<span class="lbl">${it.label}</span>
+            </button>`).join('')}
+        </div>
+        <button type="button" class="none-btn" id="stepNone" aria-pressed="${chosen === NONE}">${esc(g.none)}</button>
+      </main>
+      <footer class="step-footer">
+        ${step > 0 ? '<button type="button" class="reset" id="backBtn">戻る</button>' : ''}
+      </footer>
+    </div>`;
+
+  $('#stepGrid').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-id]');
+    if (!btn) return;
+    choose(g.id, btn.dataset.id);
+  });
+  $('#stepNone').addEventListener('click', () => choose(g.id, NONE));
+  const back = $('#backBtn');
+  if (back) back.addEventListener('click', () => { step = Math.max(0, step - 1); render(); });
+}
+
+function renderResult() {
+  const v = judge();
+  const meta = VERDICT[v.level];
+
   const rows = [];
   CATS.forEach((c) => c.groups.forEach((g) => {
-    const v = state[g.id];
-    if (!v || v === NONE) return;
-    const it = ITEM[v];
+    const val = state[g.id];
+    if (!val || val === NONE) return;
+    const it = ITEM[val];
     rows.push(`<li>${it.svg}<div>
       <div class="m-cat">${c.name}${c.groups.length > 1 ? '・' + g.title : ''}</div>
       <div class="m-name">${it.label}</div>
@@ -621,37 +584,48 @@ function render() {
       ${it.old ? `<div class="m-old">※${it.old}</div>` : ''}
     </div></li>`);
   }));
-  $('#meanings').innerHTML = rows.length
+  const meanings = rows.length
     ? `<ul class="meanings">${rows.join('')}</ul>`
     : '<p class="empty">記号を選ぶと、ここに意味が表示されます。</p>';
 
-  // 総合判定
-  const v = judge();
-  const bar = $('#bar-msg');
-  const barLink = $('#bar-link');
-  if (v.level === 'none') {
-    $('#result').innerHTML = `<div class="verdict"><p class="v-label">総合判定</p>
-      <p class="guide">タグの記号を選んでください。</p></div>`;
-    bar.className = 'bar-msg';
-    bar.textContent = 'タグの記号を選んでください';
-    barLink.hidden = true;
-    return;
-  }
-  const meta = VERDICT[v.level];
-  $('#result').innerHTML = `<div class="verdict ${meta.cls}">
-      <p class="v-label">総合判定</p>
-      <p class="v-title">${meta.title}</p>
-      ${v.missingCats && v.missingCats.length ? `<p class="v-sub">まだ選んでいない分類：${esc(v.missingCats.join('・'))}</p>` : ''}
-      ${v.reasons.length ? `<ul class="reasons">${v.reasons.map((r) => `<li>${r}</li>`).join('')}</ul>` : ''}
-      <p class="guide">${v.guide}</p>
-      <div class="exits">${exitsFor(v)}${state.bleach === 'b_no' ? exitLink('shiminuki', true, '公式LINEが開きます。色や生地を傷めずに落とせるか、職人がご案内します') : ''}</div>
+  $('#app').innerHTML = `
+    <div class="wrap">
+      <header class="top">
+        <p class="brand">創業1970年　ファミリークリーニング</p>
+        <div class="noren-line" aria-hidden="true"></div>
+      </header>
+      <main class="result-main" aria-live="polite">
+        <div class="verdict ${meta.cls}">
+          <p class="v-label">総合判定</p>
+          <p class="v-title">${meta.title}</p>
+          ${v.reasons.length ? `<ul class="reasons">${v.reasons.map((r) => `<li>${r}</li>`).join('')}</ul>` : ''}
+          <p class="guide">${v.guide}</p>
+          <div class="exits">${exitsFor(v)}${state.bleach === 'b_no' ? exitLink('shiminuki', true, '公式LINEが開きます。色や生地を傷めずに落とせるか、職人がご案内します') : ''}</div>
+        </div>
+
+        <section class="panel" aria-labelledby="meanings-h">
+          <h2 id="meanings-h">選んだ記号の意味</h2>
+          ${meanings}
+        </section>
+
+        <button type="button" class="reset" id="restartBtn">最初からやり直す</button>
+      </main>
+      <footer>
+        <p>記号の種類と意味は、消費者庁の繊維製品品質表示規程が引用する JIS L 0001（2024年8月改正）にもとづいています。</p>
+        <p>2025年8月以前に作られた衣類では、アイロンの温度が改正前の値の場合があります（各記号の説明に記載）。2016年11月以前の旧表示（「中性」「手洗イ」など文字の入った記号）には対応していません。</p>
+        <p>判定は目安です。タグにある言葉（「単独洗い」「裏返して洗う」など）や素材の表示もあわせてご確認ください。</p>
+        <p>選んだ内容はこのページの中だけで使い、どこにも送信しません。</p>
+        <p>© ファミリークリーニング</p>
+      </footer>
     </div>`;
-  bar.className = 'bar-msg ' + meta.cls;
-  bar.innerHTML = `判定：<b>${meta.title}</b>`;
-  barLink.hidden = false;
+
+  $('#restartBtn').addEventListener('click', () => {
+    Object.keys(state).forEach((k) => delete state[k]);
+    step = 0;
+    render();
+  });
 }
 
-buildPage();
 render();
 </script>
 </body>
