@@ -339,6 +339,7 @@ const draw = {
 
   circle: (letter, b = 0) => svg('<circle cx="32" cy="27" r="21"/>' + txt(letter, 35, 22) + bars(b, 54)),
   circleNo: () => svg('<circle cx="32" cy="27" r="21"/><path d="M12 7 L52 47 M52 7 L12 47"/>'),
+  circleLetterNo: (letter) => svg('<circle cx="32" cy="27" r="21"/>' + txt(letter, 35, 22) + '<path d="M12 7 L52 47 M52 7 L12 47"/>'),
 };
 
 /* ==========================================================
@@ -446,7 +447,7 @@ const CATS = [
           { id: 'wW', label: 'W', svg: draw.circle('W'), text: 'ウエットクリーニング（クリーニング店が行うプロの水洗い）ができます。' },
           { id: 'wWw', label: 'W 弱', svg: draw.circle('W', 1), text: '弱い処理のウエットクリーニング（プロの水洗い）ができます。' },
           { id: 'wWvw', label: 'W 非常に弱', svg: draw.circle('W', 2), text: '非常に弱い処理のウエットクリーニング（プロの水洗い）ができます。' },
-          { id: 'wcno', label: 'ウエット禁止', svg: draw.circleNo(), text: 'ウエットクリーニングはできません。' },
+          { id: 'wcno', label: 'ウエット禁止', svg: draw.circleLetterNo('W'), text: 'ウエットクリーニングはできません。' },
         ],
       },
     ],
