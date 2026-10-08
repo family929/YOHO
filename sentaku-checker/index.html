@@ -94,8 +94,9 @@ body {
 a { color: var(--accent); }
 button { font: inherit; color: inherit; }
 
-/* 1画面1問の骨組み（スクロールなし・100dvh基準） */
-.step-shell { min-height: 100dvh; display: flex; flex-direction: column; }
+/* 1画面1問の骨組み。min-height（heightではない）なので、通常はスクロールなしで収まり、
+   文字拡大などで内容が増えたときは枠を広げて縦スクロールできる（overflowは切らない） */
+.step-shell { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
 .step-shell > header.top { flex: 0 0 auto; }
 .step-main {
   flex: 1 1 auto; min-height: 0;
@@ -512,21 +513,37 @@ function render() {
   else renderStep();
 }
 
+const prefersReducedMotion = () =>
+  typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let pendingAdvance = null; // 保留中の「次へ」タイマー。戻る操作のときに取り消す
+
 function choose(groupId, id) {
   if (locked) return;
   state[groupId] = id;
   locked = true;
-  // 選んだ表示をその場で反映してから、0.3秒後に次の画面へ
+  const sourceStep = step; // 選んだ時点の画面番号を固定しておく
+  // 選んだ表示をその場で反映してから、次の画面へ（動きを抑える設定では待たない）
   document.querySelectorAll('#stepGrid button[data-id]').forEach((b) => {
     b.setAttribute('aria-pressed', String(b.dataset.id === id));
   });
   const noneBtn = $('#stepNone');
   if (noneBtn) noneBtn.setAttribute('aria-pressed', String(id === NONE));
-  setTimeout(() => {
+  const delay = prefersReducedMotion() ? 0 : 300;
+  pendingAdvance = setTimeout(() => {
+    pendingAdvance = null;
     locked = false;
-    step++;
+    step = sourceStep + 1; // 選んだ画面の「次」へ進む（stepが後で変わっていても影響されない）
     render();
-  }, 300);
+  }, delay);
+}
+
+function goBack() {
+  // 選択直後の保留中タイマーがあれば取り消し、戻る操作を優先する
+  if (pendingAdvance !== null) { clearTimeout(pendingAdvance); pendingAdvance = null; }
+  locked = false;
+  step = Math.max(0, step - 1);
+  render();
 }
 
 function renderStep() {
@@ -565,7 +582,7 @@ function renderStep() {
   });
   $('#stepNone').addEventListener('click', () => choose(g.id, NONE));
   const back = $('#backBtn');
-  if (back) back.addEventListener('click', () => { step = Math.max(0, step - 1); render(); });
+  if (back) back.addEventListener('click', goBack);
 }
 
 function renderResult() {
