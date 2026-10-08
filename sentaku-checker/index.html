@@ -10,62 +10,69 @@
    色の設定（ライト／ダーク）
    ========================================================== */
 :root {
-  --bg: #f6f7f9;
-  --card: #ffffff;
-  --ink: #1d2433;
-  --ink-sub: #5a6375;
-  --line: #dde1e8;
-  --accent: #1f6fb2;
-  --accent-ink: #ffffff;
-  --sel-bg: #e7f1fb;
-  --sel-line: #1f6fb2;
-  --ok: #1e7a46;
-  --ok-bg: #e6f4ec;
-  --warn: #8a5a00;
-  --warn-bg: #fff4dc;
-  --pro: #2b4fa3;
-  --pro-bg: #e8edfa;
-  --sym-bg: #ffffff;
-  --shadow: 0 1px 2px rgba(20, 30, 50, .06), 0 2px 8px rgba(20, 30, 50, .05);
+  --bg: #f5f0e6;
+  --card: #fffdf8;
+  --ink: #1f3a5f;
+  --ink-sub: #5c6b7e;
+  --line: #ddd3c0;
+  --accent: #1f3a5f;
+  --accent-ink: #f5f0e6;
+  --accent2: #c8553d;
+  --accent2-ink: #fffdf8;
+  --sel-bg: #e8edf3;
+  --sel-line: #1f3a5f;
+  --ok: #2f6b4f;
+  --ok-bg: #e8f0ea;
+  --warn: #8a6a1e;
+  --warn-bg: #f8f4e8;
+  --pro: #1f3a5f;
+  --pro-bg: #e8edf3;
+  --sym-bg: #fffdf8;
+  --shadow: none;
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #12151b;
-    --card: #1b2029;
-    --ink: #e7eaf0;
-    --ink-sub: #a3abb9;
-    --line: #2e3542;
-    --accent: #5aa6e8;
-    --accent-ink: #0d1520;
-    --sel-bg: #1b3149;
-    --sel-line: #5aa6e8;
-    --ok: #6fd39a;
-    --ok-bg: #173323;
-    --warn: #f2c25b;
-    --warn-bg: #3a2e12;
-    --pro: #9db6f5;
-    --pro-bg: #1d2742;
-    --sym-bg: #1b2029;
+    --bg: #141c28;
+    --card: #1b2534;
+    --ink: #f5f0e6;
+    --ink-sub: #aeb9c9;
+    --line: #2a3650;
+    --accent: #3c5a86;
+    --accent-ink: #f5f0e6;
+    --accent2: #e07a62;
+    --accent2-ink: #141c28;
+    --sel-bg: #22304a;
+    --sel-line: #5c84b8;
+    --ok: #6fc79a;
+    --ok-bg: #152a1f;
+    --warn: #e3c06a;
+    --warn-bg: #2e2410;
+    --pro: #93b4e3;
+    --pro-bg: #22304a;
+    --sym-bg: #1b2534;
     --shadow: none;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #12151b;
-  --card: #1b2029;
-  --ink: #e7eaf0;
-  --ink-sub: #a3abb9;
-  --line: #2e3542;
-  --accent: #5aa6e8;
-  --accent-ink: #0d1520;
-  --sel-bg: #1b3149;
-  --sel-line: #5aa6e8;
-  --ok: #6fd39a;
-  --ok-bg: #173323;
-  --warn: #f2c25b;
-  --warn-bg: #3a2e12;
-  --pro: #9db6f5;
-  --pro-bg: #1d2742;
-  --sym-bg: #1b2029;
+  --bg: #141c28;
+  --card: #1b2534;
+  --ink: #f5f0e6;
+  --ink-sub: #aeb9c9;
+  --line: #2a3650;
+  --accent: #3c5a86;
+  --accent-ink: #f5f0e6;
+  --accent2: #e07a62;
+  --accent2-ink: #141c28;
+  --sel-bg: #22304a;
+  --sel-line: #5c84b8;
+  --ok: #6fc79a;
+  --ok-bg: #152a1f;
+  --warn: #e3c06a;
+  --warn-bg: #2e2410;
+  --pro: #93b4e3;
+  --pro-bg: #22304a;
+  --sym-bg: #1b2534;
   --shadow: none;
 }
 
@@ -88,8 +95,9 @@ a { color: var(--accent); }
 button { font: inherit; color: inherit; }
 
 header.top { padding: 20px 0 8px; }
-.brand { font-size: 13px; color: var(--ink-sub); margin: 0; }
-h1 { font-size: 24px; line-height: 1.35; margin: 4px 0 8px; }
+.brand { font-size: 13px; color: var(--ink-sub); margin: 0; letter-spacing: .05em; }
+.noren-line { height: 2px; background: var(--accent); margin: 6px 0 12px; }
+h1 { font-family: var(--font-serif); font-size: 24px; line-height: 1.35; margin: 4px 0 8px; }
 .lead { margin: 0 0 4px; color: var(--ink-sub); font-size: 15px; }
 
 /* 分類ナビ（上に固定） */
@@ -103,20 +111,19 @@ nav.cats {
 nav.cats::-webkit-scrollbar { display: none; }
 nav.cats a {
   flex: 0 0 auto;
-  text-decoration: none; color: var(--ink);
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: 999px; padding: 6px 12px; font-size: 14px; white-space: nowrap;
+  text-decoration: none; color: var(--ink-sub);
+  background: transparent; border: none; border-bottom: 3px solid transparent;
+  border-radius: 0; padding: 6px 10px 5px; font-size: 14px; white-space: nowrap;
 }
-nav.cats a.done { border-color: var(--sel-line); background: var(--sel-bg); }
-nav.cats a.done::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+nav.cats a.done { color: var(--ink); border-bottom-color: var(--accent); font-weight: 700; }
 
 /* 分類ごとのカード */
 section.cat {
-  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 4px;
   box-shadow: var(--shadow);
   margin: 16px 0; padding: 14px 14px 10px;
 }
-section.cat h2 { font-size: 19px; margin: 0 0 2px; }
+section.cat h2 { font-family: var(--font-serif); font-size: 19px; margin: 0 0 2px; }
 .cat-hint { font-size: 13px; color: var(--ink-sub); margin: 0 0 8px; }
 .group + .group { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
 .group h3 { font-size: 15px; margin: 0 0 6px; }
@@ -129,7 +136,7 @@ section.cat h2 { font-size: 19px; margin: 0 0 2px; }
 .sym {
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
   min-height: 96px; padding: 8px 2px 6px;
-  background: var(--sym-bg); border: 2px solid var(--line); border-radius: 12px;
+  background: var(--sym-bg); border: 2px solid var(--line); border-radius: 6px;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
@@ -142,7 +149,7 @@ section.cat h2 { font-size: 19px; margin: 0 0 2px; }
 
 .none-btn {
   margin-top: 8px; width: 100%;
-  background: transparent; border: 1px dashed var(--line); border-radius: 10px;
+  background: transparent; border: 1px dashed var(--line); border-radius: 4px;
   padding: 8px; font-size: 13px; color: var(--ink-sub); cursor: pointer;
   touch-action: manipulation;
 }
@@ -150,10 +157,10 @@ section.cat h2 { font-size: 19px; margin: 0 0 2px; }
 
 /* 選んだ記号の意味 */
 .panel {
-  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 4px;
   box-shadow: var(--shadow); padding: 14px; margin: 16px 0;
 }
-.panel h2 { font-size: 19px; margin: 0 0 8px; }
+.panel h2 { font-family: var(--font-serif); font-size: 19px; margin: 0 0 8px; }
 .meanings { list-style: none; margin: 0; padding: 0; }
 .meanings li { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
 .meanings li:first-child { border-top: 0; padding-top: 0; }
@@ -165,12 +172,12 @@ section.cat h2 { font-size: 19px; margin: 0 0 2px; }
 .empty { color: var(--ink-sub); font-size: 15px; margin: 0; }
 
 /* 総合判定 */
-.verdict { border-radius: 14px; padding: 16px; margin: 16px 0; border: 2px solid var(--line); background: var(--card); }
+.verdict { border-radius: 4px; padding: 16px; margin: 16px 0; border: 2px solid var(--line); background: var(--card); }
 .verdict.ok   { border-color: var(--ok);   background: var(--ok-bg); }
 .verdict.warn { border-color: var(--warn); background: var(--warn-bg); }
 .verdict.pro  { border-color: var(--pro);  background: var(--pro-bg); }
 .verdict .v-label { font-size: 13px; color: var(--ink-sub); margin: 0; }
-.verdict .v-title { font-size: 24px; font-weight: 800; margin: 2px 0 6px; line-height: 1.3; }
+.verdict .v-title { font-family: var(--font-serif); font-size: 24px; font-weight: 800; margin: 2px 0 6px; line-height: 1.3; }
 .verdict.ok .v-title   { color: var(--ok); }
 .verdict.warn .v-title { color: var(--warn); }
 .verdict.pro .v-title  { color: var(--pro); }
@@ -182,19 +189,22 @@ section.cat h2 { font-size: 19px; margin: 0 0 2px; }
 .exits { display: grid; gap: 10px; margin-top: 12px; }
 .exit {
   display: block; text-decoration: none; text-align: center;
-  border-radius: 12px; padding: 13px 12px; font-weight: 700; font-size: 16px;
+  border-radius: 4px; padding: 13px 12px; font-weight: 700; font-size: 16px;
   background: var(--accent); color: var(--accent-ink);
 }
 .exit.sub { background: var(--card); color: var(--accent); border: 2px solid var(--accent); }
+/* 差し色（朱色）：相談系のボタンだけに使う */
+.exit.accent2 { background: var(--accent2); color: var(--accent2-ink); }
+.exit.sub.accent2 { background: var(--card); color: var(--accent2); border-color: var(--accent2); }
 .exit small { display: block; font-weight: 400; font-size: 12.5px; opacity: .9; }
-.ad-box { border: 1px solid var(--line); border-radius: 12px; padding: 10px; background: var(--card); }
+.ad-box { border: 1px solid var(--line); border-radius: 4px; padding: 10px; background: var(--card); }
 .ad-note { display: inline-block; font-size: 12px; color: var(--ink-sub); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; margin-bottom: 6px; }
 .ad-box .exit { margin: 0; }
 .exit-lead { font-size: 13px; color: var(--ink-sub); margin: 4px 0 -4px; }
 
 .reset {
   display: block; width: 100%; margin: 8px 0 0;
-  background: transparent; border: 1px solid var(--line); border-radius: 10px;
+  background: transparent; border: 1px solid var(--line); border-radius: 4px;
   padding: 10px; color: var(--ink-sub); cursor: pointer;
 }
 
@@ -212,7 +222,7 @@ section.cat h2 { font-size: 19px; margin: 0 0 2px; }
 .bar-msg.pro b { color: var(--pro); }
 .bar a {
   flex: 0 0 auto; text-decoration: none; background: var(--accent); color: var(--accent-ink);
-  border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 14px;
+  border-radius: 4px; padding: 8px 14px; font-weight: 700; font-size: 14px;
 }
 .bar a[hidden] { display: none; }
 
@@ -225,7 +235,8 @@ footer p { margin: 6px 0; }
 <body>
 <div class="wrap">
   <header class="top">
-    <p class="brand">ファミリークリーニング（北九州）</p>
+    <p class="brand">創業1970年　ファミリークリーニング</p>
+    <div class="noren-line" aria-hidden="true"></div>
     <h1>洗濯表示チェッカー</h1>
     <p class="lead">衣類のタグにある記号をタップしてください。家で洗えるか、どう洗えばいいかが分かります。</p>
   </header>
@@ -564,7 +575,9 @@ const VERDICT = {
 
 function exitLink(key, sub, note) {
   const l = LINKS[key];
-  return `<a class="exit${sub ? ' sub' : ''}" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}${note ? `<small>${note}</small>` : ''}</a>`;
+  // 差し色（朱色）は見た目だけの区別。相談系の2つのリンクにだけ付ける
+  const accent2 = (key === 'consult' || key === 'shiminuki') ? ' accent2' : '';
+  return `<a class="exit${sub ? ' sub' : ''}${accent2}" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}${note ? `<small>${note}</small>` : ''}</a>`;
 }
 // 「広告を含みます」はアフィリエイト商品の近くだけに表示する（自社記事のため rel は noopener のみ）
 const affiliateBox = () => `<div class="ad-box"><span class="ad-note">広告を含みます</span>${exitLink('affiliate', true)}</div>`;
