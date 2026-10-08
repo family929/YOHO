@@ -285,6 +285,11 @@ const LINKS = {
     url: 'https://example.com/family-cleaning/consult',
     label: 'お預かりできるか、まずご相談ください',
   },
+  // 漂白禁止（シミがある）ときの染み抜き相談窓口（仮URL）
+  shiminuki: {
+    url: 'https://example.com/family-cleaning/shiminuki',
+    label: '染み抜きの相談をする',
+  },
 };
 
 /* ==========================================================
@@ -356,10 +361,10 @@ const CATS = [
         { id: 'w50w', label: '50℃ 弱', svg: draw.tub('50', 1), text: '50℃までのお湯で、洗濯機の「弱」コースや「おしゃれ着」コースで洗えます。', level: 'warn', reason: '弱く洗う指定があります。洗濯ネットに入れて、「弱」コースや「おしゃれ着」コースで洗いましょう。' },
         { id: 'w40', label: '40℃', svg: draw.tub('40'), text: '40℃までの水かお湯で、洗濯機でふつうに洗えます。' },
         { id: 'w40w', label: '40℃ 弱', svg: draw.tub('40', 1), text: '40℃までの水かお湯で、洗濯機の「弱」コースや「おしゃれ着」コースで洗えます。', level: 'warn', reason: '弱く洗う指定があります。洗濯ネットに入れて、「弱」コースや「おしゃれ着」コースで洗いましょう。' },
-        { id: 'w40vw', label: '40℃ 非常に弱', svg: draw.tub('40', 2), text: '40℃までの水かお湯で、洗濯機のいちばんやさしいコース（「手洗い」コースや「ドライ」コースなど）で洗えます。', level: 'warn', reason: 'とても弱く洗う指定があります。洗濯ネットに入れて、いちばんやさしいコースで洗いましょう。' },
+        { id: 'w40vw', label: '40℃ 非常に弱', svg: draw.tub('40', 2), text: '40℃までの水かお湯で、洗濯機のいちばんやさしいコース（「手洗い」コースや「ドライ」コースなど）で洗えます。※洗濯機の「ドライ」コースは水でやさしく洗うコースで、クリーニング店のドライクリーニングとは別のものです。', level: 'warn', reason: 'とても弱く洗う指定があります。洗濯ネットに入れて、いちばんやさしいコースで洗いましょう。' },
         { id: 'w30', label: '30℃', svg: draw.tub('30'), text: '30℃までの水かお湯で、洗濯機でふつうに洗えます。' },
         { id: 'w30w', label: '30℃ 弱', svg: draw.tub('30', 1), text: '30℃までの水かお湯で、洗濯機の「弱」コースや「おしゃれ着」コースで洗えます。', level: 'warn', reason: '弱く洗う指定があります。洗濯ネットに入れて、「弱」コースや「おしゃれ着」コースで洗いましょう。' },
-        { id: 'w30vw', label: '30℃ 非常に弱', svg: draw.tub('30', 2), text: '30℃までの水かお湯で、洗濯機のいちばんやさしいコース（「手洗い」コースや「ドライ」コースなど）で洗えます。', level: 'warn', reason: 'とても弱く洗う指定があります。洗濯ネットに入れて、いちばんやさしいコースで洗いましょう。' },
+        { id: 'w30vw', label: '30℃ 非常に弱', svg: draw.tub('30', 2), text: '30℃までの水かお湯で、洗濯機のいちばんやさしいコース（「手洗い」コースや「ドライ」コースなど）で洗えます。※洗濯機の「ドライ」コースは水でやさしく洗うコースで、クリーニング店のドライクリーニングとは別のものです。', level: 'warn', reason: 'とても弱く洗う指定があります。洗濯ネットに入れて、いちばんやさしいコースで洗いましょう。' },
         { id: 'h40', label: '手洗い 40℃', svg: draw.hand('40'), text: '40℃までの水かお湯で、手でやさしく洗えます（もみ洗いは避け、押し洗いなど）。', level: 'warn', reason: '手洗いの表示です。もみ洗いは避け、手でやさしく洗いましょう（押し洗いなど）。' },
         { id: 'h30', label: '手洗い 30℃', svg: draw.hand('30'), isNew: true, text: '30℃までの水で、手でやさしく洗えます（もみ洗いは避け、押し洗いなど）。', level: 'warn', reason: '手洗い（30℃まで）の表示です。ぬるま湯以下の水で、もみ洗いは避け、手でやさしく洗いましょう（押し洗いなど）。' },
         { id: 'wno', label: '洗濯禁止', svg: draw.tubNo(), text: '家庭での洗濯はできません。', level: 'pro', reason: '「家庭洗濯禁止」の表示です。' },
@@ -374,7 +379,7 @@ const CATS = [
       items: [
         { id: 'b_any', label: '塩素系・酸素系 OK', svg: draw.tri(), text: '塩素系・酸素系、どちらの漂白剤も使えます。' },
         { id: 'b_oxy', label: '酸素系のみ', svg: draw.triOxy(), text: '酸素系の漂白剤は使えます。塩素系は使えません。' },
-        { id: 'b_no', label: '漂白禁止', svg: draw.triNo(), text: '漂白剤は使えません（酸素系・塩素系とも）。', level: 'warn', reason: '漂白剤は使えません。シミ抜きが必要なときはプロにご相談ください。' },
+        { id: 'b_no', label: '漂白禁止', svg: draw.triNo(), text: '漂白剤は使えません（酸素系・塩素系とも）。', level: 'warn', reason: '漂白剤は使えません。シミがあるときは、こすったり漂白剤を試したりせず、そのままの状態でご相談ください。時間がたつほど落ちにくくなります。色や生地を傷めずに落とせるか、染み抜きの職人が見てご案内します。' },
       ],
     }],
   },
@@ -626,7 +631,7 @@ function render() {
       ${v.missingCats && v.missingCats.length ? `<p class="v-sub">まだ選んでいない分類：${esc(v.missingCats.join('・'))}</p>` : ''}
       ${v.reasons.length ? `<ul class="reasons">${v.reasons.map((r) => `<li>${r}</li>`).join('')}</ul>` : ''}
       <p class="guide">${v.guide}</p>
-      <div class="exits">${exitsFor(v)}</div>
+      <div class="exits">${exitsFor(v)}${state.bleach === 'b_no' ? exitLink('shiminuki', true, '色や生地を傷めずに落とせるか、職人がご案内します') : ''}</div>
     </div>`;
   bar.className = 'bar-msg ' + meta.cls;
   bar.innerHTML = `判定：<b>${meta.title}</b>`;
