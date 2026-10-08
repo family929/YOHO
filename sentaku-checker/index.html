@@ -385,8 +385,8 @@ const CATS = [
         id: 'tumble', title: '乾燥機（タンブル乾燥）',
         none: 'タグにない',
         items: [
-          { id: 't2', label: '乾燥機 高温', svg: draw.tumble(2), text: '乾燥機が使えます（排気温度80℃まで）。' },
-          { id: 't1', label: '乾燥機 低温', svg: draw.tumble(1), text: '乾燥機が使えます。低温設定で（排気温度60℃まで）。' },
+          { id: 't2', label: '乾燥機 高温', svg: draw.tumble(2), text: '乾燥機が使えます（高温設定も可。排気温度80℃まで）。' },
+          { id: 't1', label: '乾燥機 低温', svg: draw.tumble(1), text: '乾燥機は低温設定で使えます（排気温度60℃まで）。' },
           { id: 'tno', label: '乾燥機禁止', svg: draw.tumbleNo(), text: '乾燥機（タンブル乾燥）は使えません。', level: 'warn', reason: '乾燥機は使えません。縮みや傷みの原因になるので、干して乾かしましょう。' },
         ],
       },
@@ -412,9 +412,9 @@ const CATS = [
       id: 'iron', title: 'アイロン',
       none: 'タグにない',
       items: [
-        { id: 'i3', label: '高温 210℃', svg: draw.iron(3), text: 'アイロンは210℃まで（高温）で使えます。', old: OLD + '「200℃まで」の意味です。' },
-        { id: 'i2', label: '中温 160℃', svg: draw.iron(2), text: 'アイロンは160℃まで（中温）で使えます。', old: OLD + '「150℃まで」の意味です。' },
-        { id: 'i1', label: '低温 120℃', svg: draw.iron(1), text: 'アイロンは120℃まで（低温）で使えます。スチームは使っても使わなくてもかまいません。', old: OLD + '「110℃まで・スチームなし」の意味です。' },
+        { id: 'i3', label: '高温 210℃', svg: draw.iron(3), text: 'アイロンは210℃まで（高温）で使えます。', old: OLD + '「200℃まで」の意味の場合があります。' },
+        { id: 'i2', label: '中温 160℃', svg: draw.iron(2), text: 'アイロンは160℃まで（中温）で使えます。', old: OLD + '「150℃まで」の意味の場合があります。' },
+        { id: 'i1', label: '低温 120℃', svg: draw.iron(1), text: 'アイロンは120℃まで（低温）で使えます。新しいタグではスチームも使えますが、古いタグではスチームなしの意味です。迷ったらスチームなしでかけましょう。', old: OLD + '「110℃まで・スチームなし」の意味の場合があります。' },
         { id: 'i1ns', label: '低温 120℃ スチームなし', svg: draw.iron(1, true), isNew: true, text: 'アイロンは120℃まで（低温）で、スチームを使わずにかけます。' },
         { id: 'ino', label: 'アイロン禁止', svg: draw.ironNo(), text: 'アイロンはかけられません。', level: 'warn', reason: 'アイロンはかけられません。しわが気になるときはプロにご相談ください。' },
       ],
