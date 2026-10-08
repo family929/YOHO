@@ -134,7 +134,7 @@ section.cat h2 { font-size: 19px; margin: 0 0 2px; }
   touch-action: manipulation;
 }
 .sym svg { width: 48px; height: 48px; color: var(--ink); flex: 0 0 auto; }
-.sym .lbl { font-size: 11.5px; line-height: 1.3; margin-top: 4px; text-align: center; word-break: keep-all; overflow-wrap: anywhere; }
+.sym .lbl { font-size: 13px; line-height: 1.3; margin-top: 4px; text-align: center; word-break: keep-all; overflow-wrap: anywhere; }
 .sym[aria-pressed="true"] { border-color: var(--sel-line); background: var(--sel-bg); }
 .sym[aria-pressed="true"] .lbl { font-weight: 700; }
 .sym:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
@@ -280,6 +280,11 @@ const LINKS = {
     url: 'https://example.com/family-cleaning/takuhai',
     label: '宅配クリーニングを申し込む',
   },
+  // 家庭洗濯・ドライ・ウエットのすべてが禁止の表示のときの相談窓口（仮URL）
+  consult: {
+    url: 'https://example.com/family-cleaning/consult',
+    label: 'お預かりできるか、まずご相談ください',
+  },
 };
 
 /* ==========================================================
@@ -346,17 +351,17 @@ const CATS = [
         { id: 'w95', label: '95℃', svg: draw.tub('95'), text: '95℃までのお湯で、洗濯機でふつうに洗えます。' },
         { id: 'w70', label: '70℃', svg: draw.tub('70'), text: '70℃までのお湯で、洗濯機でふつうに洗えます。' },
         { id: 'w60', label: '60℃', svg: draw.tub('60'), text: '60℃までのお湯で、洗濯機でふつうに洗えます。' },
-        { id: 'w60w', label: '60℃ 弱', svg: draw.tub('60', 1), text: '60℃までのお湯で、洗濯機の弱い水流（おしゃれ着コースなど）で洗えます。', level: 'warn', reason: '「弱い水流」の指定があります。洗濯ネットに入れ、おしゃれ着コースなど弱いコースで洗いましょう。' },
+        { id: 'w60w', label: '60℃ 弱', svg: draw.tub('60', 1), text: '60℃までのお湯で、「弱い洗濯処理」に対応するコース（おしゃれ着コースなど）で洗えます。', level: 'warn', reason: '「弱い洗濯処理」の指定があります。洗濯ネットに入れ、取扱説明書で弱い洗濯処理に対応するコース（おしゃれ着コースなど）を確認して洗いましょう。' },
         { id: 'w50', label: '50℃', svg: draw.tub('50'), text: '50℃までのお湯で、洗濯機でふつうに洗えます。' },
-        { id: 'w50w', label: '50℃ 弱', svg: draw.tub('50', 1), text: '50℃までのお湯で、洗濯機の弱い水流（おしゃれ着コースなど）で洗えます。', level: 'warn', reason: '「弱い水流」の指定があります。洗濯ネットに入れ、おしゃれ着コースなど弱いコースで洗いましょう。' },
+        { id: 'w50w', label: '50℃ 弱', svg: draw.tub('50', 1), text: '50℃までのお湯で、「弱い洗濯処理」に対応するコース（おしゃれ着コースなど）で洗えます。', level: 'warn', reason: '「弱い洗濯処理」の指定があります。洗濯ネットに入れ、取扱説明書で弱い洗濯処理に対応するコース（おしゃれ着コースなど）を確認して洗いましょう。' },
         { id: 'w40', label: '40℃', svg: draw.tub('40'), text: '40℃までの水かお湯で、洗濯機でふつうに洗えます。' },
-        { id: 'w40w', label: '40℃ 弱', svg: draw.tub('40', 1), text: '40℃までの水かお湯で、洗濯機の弱い水流（おしゃれ着コースなど）で洗えます。', level: 'warn', reason: '「弱い水流」の指定があります。洗濯ネットに入れ、おしゃれ着コースなど弱いコースで洗いましょう。' },
-        { id: 'w40vw', label: '40℃ 非常に弱', svg: draw.tub('40', 2), text: '40℃までの水かお湯で、洗濯機の非常に弱い水流で洗えます。', level: 'warn', reason: '「非常に弱い水流」の指定があります。洗濯ネットに入れ、いちばん弱いコースで洗いましょう。' },
+        { id: 'w40w', label: '40℃ 弱', svg: draw.tub('40', 1), text: '40℃までの水かお湯で、「弱い洗濯処理」に対応するコース（おしゃれ着コースなど）で洗えます。', level: 'warn', reason: '「弱い洗濯処理」の指定があります。洗濯ネットに入れ、取扱説明書で弱い洗濯処理に対応するコース（おしゃれ着コースなど）を確認して洗いましょう。' },
+        { id: 'w40vw', label: '40℃ 非常に弱', svg: draw.tub('40', 2), text: '40℃までの水かお湯で、「非常に弱い洗濯処理」に対応するコースで洗えます。', level: 'warn', reason: '「非常に弱い洗濯処理」の指定があります。洗濯ネットに入れ、取扱説明書で非常に弱い洗濯処理に対応するコース（いちばん弱いコースなど）を確認して洗いましょう。' },
         { id: 'w30', label: '30℃', svg: draw.tub('30'), text: '30℃までの水かお湯で、洗濯機でふつうに洗えます。' },
-        { id: 'w30w', label: '30℃ 弱', svg: draw.tub('30', 1), text: '30℃までの水かお湯で、洗濯機の弱い水流（おしゃれ着コースなど）で洗えます。', level: 'warn', reason: '「弱い水流」の指定があります。洗濯ネットに入れ、おしゃれ着コースなど弱いコースで洗いましょう。' },
-        { id: 'w30vw', label: '30℃ 非常に弱', svg: draw.tub('30', 2), text: '30℃までの水かお湯で、洗濯機の非常に弱い水流で洗えます。', level: 'warn', reason: '「非常に弱い水流」の指定があります。洗濯ネットに入れ、いちばん弱いコースで洗いましょう。' },
-        { id: 'h40', label: '手洗い 40℃', svg: draw.hand('40'), text: '40℃までの水かお湯で、手でやさしく洗えます（押し洗いなど）。', level: 'warn', reason: '手洗いの表示です。もみ洗いはせず、押し洗いでやさしく洗いましょう。' },
-        { id: 'h30', label: '手洗い 30℃', svg: draw.hand('30'), isNew: true, text: '30℃までの水で、手でやさしく洗えます（押し洗いなど）。', level: 'warn', reason: '手洗い（30℃まで）の表示です。ぬるま湯以下の水で、押し洗いでやさしく洗いましょう。' },
+        { id: 'w30w', label: '30℃ 弱', svg: draw.tub('30', 1), text: '30℃までの水かお湯で、「弱い洗濯処理」に対応するコース（おしゃれ着コースなど）で洗えます。', level: 'warn', reason: '「弱い洗濯処理」の指定があります。洗濯ネットに入れ、取扱説明書で弱い洗濯処理に対応するコース（おしゃれ着コースなど）を確認して洗いましょう。' },
+        { id: 'w30vw', label: '30℃ 非常に弱', svg: draw.tub('30', 2), text: '30℃までの水かお湯で、「非常に弱い洗濯処理」に対応するコースで洗えます。', level: 'warn', reason: '「非常に弱い洗濯処理」の指定があります。洗濯ネットに入れ、取扱説明書で非常に弱い洗濯処理に対応するコース（いちばん弱いコースなど）を確認して洗いましょう。' },
+        { id: 'h40', label: '手洗い 40℃', svg: draw.hand('40'), text: '40℃までの水かお湯で、手でやさしく洗えます（もみ洗いは避け、押し洗いなど）。', level: 'warn', reason: '手洗いの表示です。もみ洗いは避け、手でやさしく洗いましょう（押し洗いなど）。' },
+        { id: 'h30', label: '手洗い 30℃', svg: draw.hand('30'), isNew: true, text: '30℃までの水で、手でやさしく洗えます（もみ洗いは避け、押し洗いなど）。', level: 'warn', reason: '手洗い（30℃まで）の表示です。ぬるま湯以下の水で、もみ洗いは避け、手でやさしく洗いましょう（押し洗いなど）。' },
         { id: 'wno', label: '洗濯禁止', svg: draw.tubNo(), text: '家庭での洗濯はできません。', level: 'pro', reason: '「家庭洗濯禁止」の表示です。' },
       ],
     }],
@@ -391,12 +396,12 @@ const CATS = [
         items: [
           { id: 'n_line', label: 'つり干し', svg: draw.natural('line'), text: 'ハンガーなどにつるして干します。' },
           { id: 'n_line_s', label: 'つり干し 日陰', svg: draw.natural('line', true), text: '日陰で、ハンガーなどにつるして干します。', level: 'warn', reason: '日陰で干してください（日光で色あせしやすい衣類です）。' },
-          { id: 'n_drip', label: 'ぬれつり干し', svg: draw.natural('drip'), text: '洗濯機で脱水せず、ぬれたままつるして干します。', level: 'warn', reason: '脱水せず、ぬれたままつるして干してください（しわ・型くずれ防止）。' },
-          { id: 'n_drip_s', label: 'ぬれつり干し 日陰', svg: draw.natural('drip', true), text: '日陰で、脱水せずぬれたままつるして干します。', level: 'warn', reason: '脱水せず、ぬれたまま日陰でつるして干してください。' },
+          { id: 'n_drip', label: 'ぬれつり干し', svg: draw.natural('drip'), text: '脱水や手絞りをせず、ぬれたままつるして干します。', level: 'warn', reason: '脱水や手絞りをせず、ぬれたままつるして干してください（しわ・型くずれ防止）。' },
+          { id: 'n_drip_s', label: 'ぬれつり干し 日陰', svg: draw.natural('drip', true), text: '日陰で、脱水や手絞りをせずぬれたままつるして干します。', level: 'warn', reason: '脱水や手絞りをせず、ぬれたまま日陰でつるして干してください。' },
           { id: 'n_flat', label: '平干し', svg: draw.natural('flat'), text: '平らな場所に広げて干します。', level: 'warn', reason: '平らな場所に広げて干してください（ニットなどの伸び・型くずれ防止）。' },
           { id: 'n_flat_s', label: '平干し 日陰', svg: draw.natural('flat', true), text: '日陰で、平らな場所に広げて干します。', level: 'warn', reason: '日陰で、平らな場所に広げて干してください。' },
-          { id: 'n_dflat', label: 'ぬれ平干し', svg: draw.natural('dflat'), text: '脱水せず、ぬれたまま平らな場所に広げて干します。', level: 'warn', reason: '脱水せず、ぬれたまま平らに広げて干してください。' },
-          { id: 'n_dflat_s', label: 'ぬれ平干し 日陰', svg: draw.natural('dflat', true), text: '日陰で、脱水せずぬれたまま平らに広げて干します。', level: 'warn', reason: '脱水せず、ぬれたまま日陰で平らに広げて干してください。' },
+          { id: 'n_dflat', label: 'ぬれ平干し', svg: draw.natural('dflat'), text: '脱水や手絞りをせず、ぬれたまま平らな場所に広げて干します。', level: 'warn', reason: '脱水や手絞りをせず、ぬれたまま平らに広げて干してください。' },
+          { id: 'n_dflat_s', label: 'ぬれ平干し 日陰', svg: draw.natural('dflat', true), text: '日陰で、脱水や手絞りをせずぬれたまま平らに広げて干します。', level: 'warn', reason: '脱水や手絞りをせず、ぬれたまま日陰で平らに広げて干してください。' },
         ],
       },
     ],
@@ -511,6 +516,12 @@ function judge() {
       guide: '洗い方が分からない衣類は、無理に家で洗わずプロにお任せください。' };
   }
   if (ITEM[wash].level === 'pro') {
+    const allProhibited = state.drycl === 'dno' && state.wetcl === 'wcno';
+    if (allProhibited) {
+      return { level: 'pro', allProhibited: true,
+        reasons: [ITEM[wash].reason, 'ドライクリーニング・ウエットクリーニングも禁止の表示です。'],
+        guide: 'ご自身では洗えず、クリーニング店で行う通常の処理もできない表示です。お預かりできるか、まずご相談ください。' };
+    }
     return { level: 'pro', reasons: [ITEM[wash].reason],
       guide: '家で洗うと縮み・色落ち・型くずれのおそれがあります。プロにお任せください。' };
   }
@@ -520,10 +531,23 @@ function judge() {
     const it = ITEM[state[g]];
     if (it && it.level === 'warn' && !reasons.includes(it.reason)) reasons.push(it.reason);
   });
-  if (reasons.length) {
-    return { level: 'warn', reasons, guide: '下の注意点を守れば、家で洗えます。' };
+
+  // 洗濯以外の分類がまだ選ばれていない場合は、言い切らずに案内する
+  const missingCats = CATS
+    .filter((c) => !c.groups.some((g) => state[g.id] !== undefined))
+    .map((c) => c.name);
+
+  const level = reasons.length ? 'warn' : 'ok';
+  let guide;
+  if (missingCats.length) {
+    guide = level === 'warn'
+      ? '洗濯の記号では、注意点を守れば家で洗えます。他の記号も選ぶと、さらに注意点が分かります。'
+      : '洗濯の記号では、洗濯機で洗えます。他の記号も選ぶと、注意点が分かります。';
+  } else {
+    guide = level === 'warn' ? '下の注意点を守れば、家で洗えます。' : 'ふだんどおり洗濯機で洗えます。';
   }
-  return { level: 'ok', reasons: [], guide: 'ふだんどおり洗濯機で洗えます。' };
+
+  return { level, reasons, guide, missingCats };
 }
 
 const VERDICT = {
@@ -540,14 +564,17 @@ function exitLink(key, sub, note) {
 // 「広告を含みます」はアフィリエイト商品の近くだけに表示する
 const affiliateBox = () => `<div class="ad-box"><span class="ad-note">広告を含みます</span>${exitLink('affiliate', true)}</div>`;
 
-function exitsFor(level) {
-  if (level === 'ok') {
+function exitsFor(v) {
+  if (v.level === 'ok') {
     return exitLink('ownDetergent', false, 'クリーニング店が選んだ洗剤') + affiliateBox();
   }
-  if (level === 'warn') {
+  if (v.level === 'warn') {
     return exitLink('ownDetergent', false, 'デリケートな衣類にも') + affiliateBox() +
       '<p class="exit-lead">自分で洗うのが不安なときは</p>' +
       exitLink('takuhai', true, 'ご自宅から出すだけ。北九州のファミリークリーニング');
+  }
+  if (v.allProhibited) {
+    return exitLink('consult', false, 'まずは状態を見てご案内します。北九州のファミリークリーニング');
   }
   return exitLink('takuhai', false, 'ご自宅から出すだけ。北九州のファミリークリーニング');
 }
@@ -596,9 +623,10 @@ function render() {
   $('#result').innerHTML = `<div class="verdict ${meta.cls}">
       <p class="v-label">総合判定</p>
       <p class="v-title">${meta.title}</p>
+      ${v.missingCats && v.missingCats.length ? `<p class="v-sub">まだ選んでいない分類：${esc(v.missingCats.join('・'))}</p>` : ''}
       ${v.reasons.length ? `<ul class="reasons">${v.reasons.map((r) => `<li>${r}</li>`).join('')}</ul>` : ''}
       <p class="guide">${v.guide}</p>
-      <div class="exits">${exitsFor(v.level)}</div>
+      <div class="exits">${exitsFor(v)}</div>
     </div>`;
   bar.className = 'bar-msg ' + meta.cls;
   bar.innerHTML = `判定：<b>${meta.title}</b>`;
