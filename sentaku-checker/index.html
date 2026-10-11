@@ -41,6 +41,7 @@
     --accent: #3c5a86;
     --accent-ink: #f5f0e6;
     --accent2: #e07a62;
+    --splash-big: var(--ink);
     --accent2-ink: #141c28;
     --sel-bg: #22304a;
     --sel-line: #5c84b8;
@@ -63,6 +64,7 @@
   --accent: #3c5a86;
   --accent-ink: #f5f0e6;
   --accent2: #e07a62;
+  --splash-big: var(--ink);
   --accent2-ink: #141c28;
   --sel-bg: #22304a;
   --sel-line: #5c84b8;
@@ -107,6 +109,26 @@ button { font: inherit; color: inherit; }
 .step-q { font-family: var(--font-serif); font-size: 17px; margin: 0; text-align: center; }
 
 .result-main { padding-bottom: 8px; }
+
+/* 最初のタイトル画面（どーんと出して、すぐ1問目へ） */
+.splash {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--bg); color: var(--ink); text-align: center; padding: 16px;
+  animation: splash-out .35s ease 1.45s forwards;
+}
+.splash-band { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: var(--accent); }
+.splash-in { animation: splash-pop .55s cubic-bezier(.2, 1.4, .4, 1) both; }
+.splash-lead { font-family: var(--font-serif); font-size: 22px; margin: 0; letter-spacing: .08em; }
+.splash-big { font-family: var(--font-serif); font-size: 64px; font-weight: 800; line-height: 1.15; margin: 2px 0 14px; color: var(--splash-big, var(--accent)); }
+.splash-sub { display: inline-block; font-size: 17px; font-weight: 700; letter-spacing: .12em; margin: 0; padding: 4px 14px; border-top: 2px solid var(--accent2); border-bottom: 2px solid var(--accent2); }
+.splash-brand { position: absolute; bottom: calc(24px + env(safe-area-inset-bottom)); left: 0; right: 0; font-size: 13px; color: var(--ink-sub); margin: 0; letter-spacing: .05em; }
+@keyframes splash-pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+@keyframes splash-out { to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) {
+  .splash-in { animation: none; }
+  .splash { animation: splash-out .01s linear 1s forwards; }
+}
 
 @keyframes noren-fade { from { opacity: 0; } to { opacity: 1; } }
 .step-main, .result-main { animation: noren-fade .2s ease; }
@@ -209,6 +231,15 @@ footer p { margin: 6px 0; }
 </style>
 </head>
 <body>
+<div class="splash" id="splash" aria-hidden="true">
+  <div class="splash-band"></div>
+  <div class="splash-in">
+    <p class="splash-lead">その洋服</p>
+    <p class="splash-big">洗える？</p>
+    <p class="splash-sub">洗濯表示 checker</p>
+  </div>
+  <p class="splash-brand">ファミリークリーニング（北九州）</p>
+</div>
 <div id="app"></div>
 
 <script>
@@ -642,6 +673,16 @@ function renderResult() {
     render();
   });
 }
+
+// 最初のタイトル画面：アニメーションが終わったら取り除く。タップで飛ばせる
+(() => {
+  const splash = document.getElementById('splash');
+  if (!splash) return;
+  const remove = () => splash.remove();
+  splash.addEventListener('animationend', (e) => { if (e.animationName === 'splash-out') remove(); });
+  splash.addEventListener('click', remove);
+  setTimeout(remove, 2500); // 念のため
+})();
 
 render();
 </script>
