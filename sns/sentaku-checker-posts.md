@@ -1,6 +1,6 @@
 # 洗濯表示チェッカー 告知文セット
 
-- ページURL：https://family929.github.io/YOHO/sentaku-checker/
+- ページURL：https://familycleaning.jp/sentaku-checker/
 - 画像：`sns/sentaku-checker-square.png`（正方形）／`sns/sentaku-checker-story.png`（縦長・QR入り）
 - 書いてよい事実：無料・登録なし／タグの記号を選ぶだけ（7問）／判定は「家で洗える」「家で洗える（注意あり）」「プロに任せる」の3つ／記号は消費者庁が引用する JIS L 0001（2024年8月改正）にもとづく／選んだ内容はどこにも送信されない
 - 注意：判定は「目安」です。「必ず洗える」「失敗しない」などの言い切りは使わないでください
@@ -21,7 +21,7 @@
 ファミリークリーニング（北九州）では、そんなときにスマホで手軽に確かめられる「**洗濯表示チェッカー**」を作りました。無料で、登録もいりません。
 
 ▶ 洗濯表示チェッカーを使ってみる
-https://family929.github.io/YOHO/sentaku-checker/
+https://familycleaning.jp/sentaku-checker/
 
 ### 使い方は、タグの記号を選ぶだけ
 
@@ -48,7 +48,7 @@ https://family929.github.io/YOHO/sentaku-checker/
 お気に入りの一着や、シミがついてしまった衣類は、無理をせずクリーニング店にご相談ください。ファミリークリーニングでは、ご自宅から出すだけの宅配クリーニングや、公式LINEでのご相談も受け付けています。
 
 ▶ 洗濯表示チェッカー
-https://family929.github.io/YOHO/sentaku-checker/
+https://familycleaning.jp/sentaku-checker/
 
 ※判定は目安です。タグにある言葉（「単独洗い」「裏返して洗う」など）や素材の表示もあわせてご確認ください。
 
@@ -73,7 +73,7 @@ https://family929.github.io/YOHO/sentaku-checker/
 そこで、スマホでタグの記号を選ぶだけで「家で洗えるか」「どう洗えばいいか」が分かるページを作りました。
 
 ▶ 洗濯表示チェッカー
-https://family929.github.io/YOHO/sentaku-checker/
+https://familycleaning.jp/sentaku-checker/
 
 使い方はシンプルです。1画面に1問ずつ出てくる記号の中から、タグと同じものをタップしていくだけ。7問答えると、「家で洗える」「家で洗える（注意あり）」「プロに任せる」のどれかが出ます。
 
@@ -96,7 +96,7 @@ https://family929.github.io/YOHO/sentaku-checker/
 タグの洗濯表示の記号をタップするだけで、家で洗えるか・どう洗うかが分かるチェッカーを作りました。
 無料・登録なし🧺
 
-https://family929.github.io/YOHO/sentaku-checker/
+https://familycleaning.jp/sentaku-checker/
 
 #洗濯表示 #洗濯 #クリーニング
 ```
@@ -108,7 +108,7 @@ https://family929.github.io/YOHO/sentaku-checker/
 ・アイロンの温度が210℃／160℃／120℃に
 
 新しい表示にも対応した洗濯表示チェッカーはこちら👇
-https://family929.github.io/YOHO/sentaku-checker/
+https://familycleaning.jp/sentaku-checker/
 
 #洗濯表示
 ```
@@ -119,7 +119,7 @@ https://family929.github.io/YOHO/sentaku-checker/
 「この三角に斜線って何…？」
 
 記号を選ぶだけで分かるようにしました。
-https://family929.github.io/YOHO/sentaku-checker/
+https://familycleaning.jp/sentaku-checker/
 
 #洗濯表示 #家事
 ```
@@ -177,7 +177,7 @@ https://family929.github.io/YOHO/sentaku-checker/
 ・2024年8月に改正された新しい洗濯表示にも対応
 ・無料、登録なし
 
-▶ https://family929.github.io/YOHO/sentaku-checker/
+▶ https://familycleaning.jp/sentaku-checker/
 
 迷う組み合わせのときは「プロに任せる」と判定するようにしています。大切な衣類は、どうぞお気軽にご相談ください。
 ```
@@ -192,7 +192,7 @@ https://family929.github.io/YOHO/sentaku-checker/
 
 タグの洗濯表示の記号を選ぶだけで、家で洗えるか・どう洗うかが分かる「洗濯表示チェッカー」を作りました。無料でお使いいただけます。
 
-▶ https://family929.github.io/YOHO/sentaku-checker/
+▶ https://familycleaning.jp/sentaku-checker/
 
 「やっぱり不安…」というときは、このLINEにお洋服の写真を送ってご相談ください。
 ```
@@ -222,7 +222,7 @@ https://family929.github.io/YOHO/sentaku-checker/
 タグの洗濯表示の記号を選ぶだけで、家で洗えるか・どう洗うかが分かる「洗濯表示チェッカー」を作りました。無料・登録なしで使えます。
 
 ▶ 洗濯表示チェッカー
-https://family929.github.io/YOHO/sentaku-checker/
+https://familycleaning.jp/sentaku-checker/
 
 ・全7問、タグと同じ記号をタップするだけ
 ・判定は「家で洗える」「家で洗える（注意あり）」「プロに任せる」の3つ
