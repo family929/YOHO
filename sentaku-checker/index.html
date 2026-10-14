@@ -330,10 +330,12 @@ const bars = (n, y1) =>
   (n >= 1 ? `<path d="M12 ${y1} H52"/>` : '') + (n >= 2 ? `<path d="M12 ${y1 + 6} H52"/>` : '');
 
 const TUB = '<path d="M7 14 L14 44 H50 L57 14"/><path d="M9 21 q5.75 -5 11.5 0 t11.5 0 t11.5 0 t11.5 0"/>';
-const HAND = '<path fill="var(--sym-bg)" d="M26 2 V26 a2.5 2.5 0 0 0 5 0 a2.5 2.5 0 0 0 5 0 a2.5 2.5 0 0 0 5 0 a2.5 2.5 0 0 0 5 0 V15 l5 -4 a2 2 0 0 0 -2.6 -3 l-2.4 2 V2"/>';
+// 手洗いの記号には数字が入らない（早見表どおり）。手をおけの中央・深めに入れる
+const HAND = '<path fill="var(--sym-bg)" d="M20 2 V33 a2.5 2.5 0 0 0 5 0 a2.5 2.5 0 0 0 5 0 a2.5 2.5 0 0 0 5 0 a2.5 2.5 0 0 0 5 0 V22 l5 -4 a2 2 0 0 0 -2.6 -3 l-2.4 2 V2"/>';
 const draw = {
   tub: (num, b = 0) => svg(TUB + txt(num, 40, 15) + bars(b, 52)),
-  hand: (num) => svg(TUB + HAND + txt(num, 42, 12)),
+  // 手洗い40℃は横線なし、手洗い30℃はおけの下に横線1本で見分ける
+  hand: (b = 0) => svg(TUB + HAND + bars(b, 52)),
   tubNo: () => svg(TUB + CROSS),
 
   tri: () => svg('<path d="M32 7 L58 52 H6 Z"/>'),
@@ -356,9 +358,12 @@ const draw = {
 
   iron: (n, noSteam) => {
     const body = '<path d="M6 42 Q9 25 24 23 H56 V42 Z"/><path d="M28 23 Q30 11 40 11 H56 V23"/>';
-    const dots = { 1: [38], 2: [32, 44], 3: [27, 38, 49] }[n].map((x) => dot(x, 33)).join('');
-    const steam = noSteam ? '<path d="M24 49 L40 61 M40 49 L24 61"/>' : '';
-    return svg(body + dots + steam);
+    const dots = { 1: [38], 2: [32, 44], 3: [27, 38, 49] }[n].map((x) => dot(x, 33, noSteam ? 3.2 : 2.8)).join('');
+    if (!noSteam) return svg(body + dots);
+    // スチームなし：早見表どおり、アイロンの下に湯気の線を描いて×を重ねる。
+    // 湯気を描く場所を空けるため、アイロンは少し小さくして上にずらす（線の太さは縮めた分だけ太くして見た目をそろえる）
+    return svg(`<g transform="translate(4.8 -6.5) scale(0.85)" stroke-width="3.5">${body}${dots}</g>` +
+      '<path d="M27 33 L28 45 M35 33 L34 45"/><path d="M20 41 a11 11 0 0 0 22 0"/><path d="M15 35 L47 61 M47 35 L15 61"/>');
   },
   ironNo: () => svg('<path d="M6 42 Q9 25 24 23 H56 V42 Z"/><path d="M28 23 Q30 11 40 11 H56 V23"/><path d="M8 6 L56 58 M56 6 L8 58"/>'),
 
@@ -391,8 +396,8 @@ const CATS = [
         { id: 'w30', label: '30℃', svg: draw.tub('30'), text: '30℃までの水かお湯で、洗濯機でふつうに洗えます。' },
         { id: 'w30w', label: '30℃ 弱', svg: draw.tub('30', 1), text: '30℃までの水かお湯で、洗濯機の「弱」コースや「おしゃれ着」コースで洗えます。', level: 'warn', reason: '弱く洗う指定があります。洗濯ネットに入れて、「弱」コースや「おしゃれ着」コースで洗いましょう。' },
         { id: 'w30vw', label: '30℃ 非常に弱', svg: draw.tub('30', 2), text: '30℃までの水かお湯で、洗濯機のいちばんやさしいコース（「手洗い」コースや「ドライ」コースなど）で洗えます。※洗濯機の「ドライ」コースは水でやさしく洗うコースで、クリーニング店のドライクリーニングとは別のものです。', level: 'warn', reason: 'とても弱く洗う指定があります。洗濯ネットに入れて、いちばんやさしいコースで洗いましょう。' },
-        { id: 'h40', label: '手洗い 40℃', svg: draw.hand('40'), text: '40℃までの水かお湯で、手でやさしく洗えます（もみ洗いは避け、押し洗いなど）。', level: 'warn', reason: '手洗いの表示です。もみ洗いは避け、手でやさしく洗いましょう（押し洗いなど）。' },
-        { id: 'h30', label: '手洗い 30℃', svg: draw.hand('30'), isNew: true, text: '30℃までの水で、手でやさしく洗えます（もみ洗いは避け、押し洗いなど）。', level: 'warn', reason: '手洗い（30℃まで）の表示です。ぬるま湯以下の水で、もみ洗いは避け、手でやさしく洗いましょう（押し洗いなど）。' },
+        { id: 'h40', label: '手洗い 40℃', svg: draw.hand(), text: '40℃までの水かお湯で、手でやさしく洗えます（もみ洗いは避け、押し洗いなど）。', level: 'warn', reason: '手洗いの表示です。もみ洗いは避け、手でやさしく洗いましょう（押し洗いなど）。' },
+        { id: 'h30', label: '手洗い 30℃', svg: draw.hand(1), isNew: true, text: '30℃までの水で、手でやさしく洗えます（もみ洗いは避け、押し洗いなど）。', level: 'warn', reason: '手洗い（30℃まで）の表示です。ぬるま湯以下の水で、もみ洗いは避け、手でやさしく洗いましょう（押し洗いなど）。' },
         { id: 'wno', label: '洗濯禁止', svg: draw.tubNo(), text: '家庭での洗濯はできません。', level: 'pro', reason: '「家庭洗濯禁止」の表示です。' },
       ],
     }],
