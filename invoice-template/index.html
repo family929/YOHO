@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>御請求書｜ファミリークリーニング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /*
+    会計アプリ「請求書発行」用の請求書デザイン（A4縦）
+    - 中身は下の INVOICE（データ）を差し替えるだけで変わる
+    - 上段に「前月ご入金額・繰越金額・今月ご請求額」を表示
+  */
+  :root {
+    --brand: #1f4e8c;       /* 店のブルー */
+    --brand-soft: #eaf1fa;
+    --ink: #1d2433;
+    --muted: #6b7486;
+    --line: #d9dee7;
+    --paper: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #e9ecf1; color: var(--ink); }
+  body {
+    font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "IPAGothic", sans-serif;
+    font-size: 10pt; line-height: 1.55;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .sheet {
+    width: 210mm; min-height: 297mm; margin: 12mm auto; background: var(--paper);
+    padding: 13mm 15mm 10mm; position: relative;
+    box-shadow: 0 2px 18px rgba(20, 30, 50, .12);
+    display: flex; flex-direction: column;
+  }
+  .sheet > * { flex-shrink: 0; }
+  .sheet::before { /* 上端のブルーの帯 */
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5mm; background: var(--brand);
+  }
+  .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+  /* ── 見出し ── */
+  .head { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 2mm; }
+  .title {
+    font-family: "Noto Serif JP", serif; font-weight: 700; font-size: 24pt;
+    letter-spacing: .45em; margin: 0; color: var(--brand);
+  }
+  .title small { display: block; font-family: "Noto Sans JP", sans-serif; font-size: 8pt;
+    letter-spacing: .3em; color: var(--muted); font-weight: 500; margin-top: 1mm; }
+  .meta { text-align: right; font-size: 9pt; color: var(--muted); }
+  .meta b { color: var(--ink); font-weight: 500; margin-left: 2mm; }
+
+  /* ── 宛先と発行元 ── */
+  .parties { display: grid; grid-template-columns: 1fr 74mm; gap: 10mm; margin-top: 6mm; }
+  .to-name { font-size: 15pt; font-weight: 700; border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 1.5mm; display: flex; justify-content: space-between; align-items: baseline; }
+  .to-name span { font-size: 11pt; font-weight: 500; }
+  .to-sub { color: var(--muted); font-size: 9pt; margin-top: 1.5mm; }
+  .greeting { margin: 3mm 0 0; font-size: 9.5pt; }
+  .from { font-size: 8.8pt; color: #3a4252; position: relative; }
+  .from .shop { font-size: 13pt; font-weight: 700; color: var(--ink); letter-spacing: .05em; }
+  .from .reg { display: inline-block; margin-top: 1.5mm; padding: .5mm 2mm; border: 1px solid var(--line);
+    border-radius: 1mm; font-size: 8pt; color: var(--muted); }
+  .seal { position: absolute; right: 0; top: 0; width: 15mm; height: 15mm; border: 1px dashed #b9c0cc;
+    color: #b9c0cc; border-radius: 1mm; display: grid; place-items: center; font-family: "Noto Serif JP", serif;
+    font-size: 9pt; }
+
+  /* ── 上段：前月ご入金額・繰越金額・今月ご請求額 ── */
+  .summary { margin-top: 6mm; display: grid; grid-template-columns: 1fr 1fr 1.35fr; border: 1.5px solid var(--brand); border-radius: 2mm; overflow: hidden; }
+  .summary > div { padding: 2.5mm 5mm 3mm; }
+  .summary > div + div { border-left: 1px solid var(--line); }
+  .summary .label { font-size: 8.5pt; color: var(--muted); letter-spacing: .08em; }
+  .summary .value { font-size: 15pt; font-weight: 500; margin-top: 1mm; text-align: right; }
+  .summary .value::before { content: "¥"; font-size: 10pt; margin-right: 1mm; color: var(--muted); }
+  .summary .total { background: var(--brand); color: #fff; }
+  .summary .total .label { color: rgba(255,255,255,.85); }
+  .summary .total .value { font-size: 21pt; font-weight: 700; }
+  .summary .total .value::before { color: rgba(255,255,255,.8); }
+  .summary .total .note { font-size: 7.5pt; text-align: right; color: rgba(255,255,255,.8); }
+  .calc { margin-top: 2mm; font-size: 8.3pt; color: var(--muted); text-align: right; }
+  .calc b { color: var(--ink); font-weight: 500; }
+
+  .due { margin-top: 2mm; display: flex; gap: 6mm; font-size: 9pt; }
+  .due div { background: var(--brand-soft); padding: 1.5mm 3.5mm; border-radius: 1mm; }
+  .due b { margin-left: 2mm; }
+
+  /* ── 明細 ── */
+  h2.sec { font-size: 9pt; letter-spacing: .2em; color: var(--brand); margin: 5mm 0 1.5mm; font-weight: 700;
+    display: flex; align-items: center; gap: 3mm; }
+  h2.sec::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  table.items { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  .items th { font-weight: 500; font-size: 8pt; color: var(--muted); text-align: left; padding: 1.5mm 2mm;
+    border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
+  .items td { padding: 1.3mm 2mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .items tbody tr:nth-child(even) td { background: #fafbfd; }
+  .items .r { text-align: right; }
+  .items .c { text-align: center; }
+  .items .date { width: 18mm; white-space: nowrap; color: var(--muted); }
+  .items .slip { width: 20mm; white-space: nowrap; color: var(--muted); font-size: 8pt; }
+  .items .qty { width: 12mm; }
+  .items .price, .items .amt { width: 22mm; }
+  .items .reduced { font-size: 7.5pt; color: #c0392b; margin-left: 1mm; }
+
+  /* ── 合計と税率ごとの内訳（インボイス） ── */
+  .totals { display: grid; grid-template-columns: 1fr 70mm; gap: 10mm; margin-top: 3mm; align-items: start; }
+  .taxbox { font-size: 8.3pt; color: #3a4252; border: 1px solid var(--line); border-radius: 1.5mm; padding: 2.5mm 3.5mm; }
+  .taxbox table { width: 100%; border-collapse: collapse; }
+  .taxbox th { font-weight: 500; color: var(--muted); text-align: left; padding: .8mm 0; }
+  .taxbox td { text-align: right; padding: .8mm 0; }
+  .sum { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+  .sum td { padding: 1mm 0; border-bottom: 1px solid var(--line); }
+  .sum td:last-child { text-align: right; }
+  .sum tr.grand td { border-bottom: 0; border-top: 1.5px solid var(--ink); font-weight: 700; font-size: 11pt; padding-top: 2mm; }
+
+  /* ── 振込先・備考 ── */
+  .bottom { margin-top: auto; padding-top: 6mm; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .card { border-radius: 1.5mm; padding: 2.5mm 4mm; font-size: 8.8pt; }
+  .bank { background: var(--brand-soft); }
+  .card h3 { margin: 0 0 1.5mm; font-size: 8.5pt; letter-spacing: .15em; color: var(--brand); }
+  .bank dl { margin: 0; display: grid; grid-template-columns: 18mm 1fr; row-gap: .6mm; }
+  .bank dt { color: var(--muted); }
+  .bank dd { margin: 0; }
+  .memo { border: 1px solid var(--line); color: #3a4252; white-space: pre-wrap; }
+  .foot { margin-top: 3mm; text-align: center; font-size: 8pt; color: var(--muted); letter-spacing: .1em; }
+
+  @page { size: A4 portrait; margin: 8mm 0; }
+  @media print {
+    html, body { background: #fff; }
+    .sheet { margin: 0; box-shadow: none; width: 210mm; min-height: 0; padding-top: 8mm; padding-bottom: 0; }
+    .sheet::before { display: none; }
+    .head { border-top: 1.2mm solid var(--brand); padding-top: 4mm; }
+    .bottom { margin-top: 0; }
+    .bottom, .totals { break-inside: avoid; }
+    .items tr { break-inside: avoid; }
+  }
+  @media screen and (max-width: 820px) { /* スマホで見るとき（印刷には影響なし） */
+    .sheet { zoom: .46; margin: 4mm auto; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet" id="invoice"></div>
+
+<script>
+/* ===== 差し替えるデータ（会計アプリから渡す） ===== */
+var INVOICE = {
+  title: "御請求書",
+  number: "20261031-01",
+  issueDate: "2026-10-31",
+  closingLabel: "2026年10月31日締切分",
+  dueDate: "2026-11-30",
+  to: { name: "サンプル株式会社", honorific: "御中", sub: "総務部 ご担当者様" },
+  shop: {
+    name: "ファミリークリーニング",
+    zip: "800-0236",
+    address: "福岡県北九州市小倉南区下貫2-4-21",
+    tel: "093-471-3190",
+    email: "simisodan@gmail.com",
+    registration: "T3810069592313",
+    seal: true
+  },
+  // 上段の3つ（前月ご請求額 − 前月ご入金額 = 繰越金額）
+  previousBilled: 58300,   // 前月ご請求額
+  previousPaid: 50000,     // 前月ご入金額
+  // 明細（DUKE CSV から）。price は税抜単価
+  items: [
+    { date: "2026-10-03", slip: "1203-0451", name: "作業服 クリーニング", qty: 12, price: 450 },
+    { date: "2026-10-03", slip: "1203-0451", name: "Yシャツ", qty: 8, price: 220 },
+    { date: "2026-10-10", slip: "1210-0388", name: "作業服 クリーニング", qty: 10, price: 450 },
+    { date: "2026-10-17", slip: "1217-0402", name: "ユニフォーム 撥水加工", qty: 4, price: 800 },
+    { date: "2026-10-24", slip: "1224-0417", name: "作業服 クリーニング", qty: 14, price: 450 },
+    { date: "2026-10-24", slip: "1224-0417", name: "お直し（ファスナー交換）", qty: 1, price: 2400 }
+  ],
+  taxRate: 0.10,
+  bank: { name: "福岡銀行 曽根支店", type: "普通預金", number: "277134", holder: "神林 英一（カンバヤシ エイイチ）" },
+  memo: "恐れ入りますが、振込手数料は貴社にてご負担くださいますようお願い申し上げます。"
+};
+/* ================================================ */
+
+(function () {
+  var d = INVOICE;
+  var yen = function (n) { return Math.round(n).toLocaleString("ja-JP"); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var jdate = function (iso) { var p = iso.split("-"); return p[0] + "年" + Number(p[1]) + "月" + Number(p[2]) + "日"; };
+  var mdate = function (iso) { var p = iso.split("-"); return Number(p[1]) + "/" + Number(p[2]); };
+
+  var subtotal = d.items.reduce(function (s, it) { return s + it.qty * it.price; }, 0);
+  var tax = Math.floor(subtotal * d.taxRate);            // 円未満切り捨て
+  var thisMonth = subtotal + tax;                        // 今月ご利用額（税込）
+  var carryOver = d.previousBilled - d.previousPaid;     // 繰越金額
+  var billing = carryOver + thisMonth;                   // 今月ご請求額
+  var ratePct = Math.round(d.taxRate * 100);
+
+  var rows = d.items.map(function (it) {
+    return "<tr><td class='date num'>" + mdate(it.date) + "</td><td class='slip num'>" + esc(it.slip) +
+      "</td><td>" + esc(it.name) + "</td><td class='r num qty'>" + it.qty +
+      "</td><td class='r num price'>" + yen(it.price) + "</td><td class='r num amt'>" + yen(it.qty * it.price) + "</td></tr>";
+  }).join("");
+
+  var s = d.shop;
+  document.getElementById("invoice").innerHTML =
+    "<header class='head'><h1 class='title'>" + esc(d.title) + "<small>INVOICE</small></h1>" +
+      "<div class='meta'><div>請求書番号<b class='num'>" + esc(d.number) + "</b></div>" +
+      "<div>発行日<b>" + jdate(d.issueDate) + "</b></div><div>" + esc(d.closingLabel) + "</div></div></header>" +
+
+    "<section class='parties'><div>" +
+      "<div class='to-name'>" + esc(d.to.name) + "<span>" + esc(d.to.honorific) + "</span></div>" +
+      (d.to.sub ? "<div class='to-sub'>" + esc(d.to.sub) + "</div>" : "") +
+      "<p class='greeting'>毎度格別のお引き立てを賜り、ありがとうございます。<br>下記のとおりご請求申し上げます。</p></div>" +
+      "<div class='from'>" + (s.seal ? "<div class='seal'>印</div>" : "") +
+        "<div class='shop'>" + esc(s.name) + "</div>〒" + esc(s.zip) + "<br>" + esc(s.address) +
+        "<br>TEL / FAX " + esc(s.tel) + "<br>" + esc(s.email) +
+        "<br><span class='reg'>登録番号 " + esc(s.registration) + "</span></div></section>" +
+
+    "<section class='summary'>" +
+      "<div><div class='label'>前月ご入金額</div><div class='value num'>" + yen(d.previousPaid) + "</div></div>" +
+      "<div><div class='label'>繰越金額</div><div class='value num'>" + yen(carryOver) + "</div></div>" +
+      "<div class='total'><div class='label'>今月ご請求額（税込）</div><div class='value num'>" + yen(billing) + "</div></div>" +
+    "</section>" +
+    "<div class='calc num'>前月ご請求額 " + yen(d.previousBilled) + " − 前月ご入金額 " + yen(d.previousPaid) +
+      " ＝ 繰越 <b>" + yen(carryOver) + "</b>　｜　繰越 " + yen(carryOver) + " ＋ 今月ご利用 " + yen(thisMonth) +
+      "（税込） ＝ <b>" + yen(billing) + "</b></div>" +
+    "<div class='due'><div>お支払期限<b>" + jdate(d.dueDate) + "</b></div></div>" +
+
+    "<h2 class='sec'>ご利用明細</h2>" +
+    "<table class='items'><thead><tr><th class='date'>日付</th><th class='slip'>伝票No.</th><th>品目</th>" +
+      "<th class='r'>数量</th><th class='r'>単価</th><th class='r'>金額（税抜）</th></tr></thead><tbody>" + rows + "</tbody></table>" +
+
+    "<section class='totals'><div class='taxbox'><table>" +
+      "<tr><th>" + ratePct + "%対象（税抜）</th><td class='num'>" + yen(subtotal) + "円</td></tr>" +
+      "<tr><th>消費税額（" + ratePct + "%）</th><td class='num'>" + yen(tax) + "円</td></tr></table></div>" +
+      "<table class='sum num'><tr><td>小計（税抜）</td><td>" + yen(subtotal) + "</td></tr>" +
+      "<tr><td>消費税（" + ratePct + "%）</td><td>" + yen(tax) + "</td></tr>" +
+      "<tr><td>今月ご利用額（税込）</td><td>" + yen(thisMonth) + "</td></tr>" +
+      "<tr><td>繰越金額</td><td>" + yen(carryOver) + "</td></tr>" +
+      "<tr class='grand'><td>今月ご請求額</td><td>¥" + yen(billing) + "</td></tr></table></section>" +
+
+    "<section class='bottom'><div class='card bank'><h3>お振込先</h3><dl>" +
+      "<dt>金融機関</dt><dd>" + esc(d.bank.name) + "</dd><dt>預金種別</dt><dd>" + esc(d.bank.type) +
+      "</dd><dt>口座番号</dt><dd class='num'>" + esc(d.bank.number) + "</dd><dt>口座名義</dt><dd>" + esc(d.bank.holder) +
+      "</dd></dl></div><div class='card memo'><h3>備考</h3>" + esc(d.memo) + "</div></section>" +
+    "<div class='foot'>いつもご利用いただき、ありがとうございます。</div>";
+})();
+</script>
+</body>
+</html>
