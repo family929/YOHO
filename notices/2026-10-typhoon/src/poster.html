@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>臨時休業のお知らせ（店頭貼り紙 A4）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=block" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --blue: #1f5fa8;
+    --blue-deep: #17487f;
+    --blue-pale: #eaf2fb;
+    --ink: #1d2b3a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 210mm; height: 297mm; background: #fff; }
+  body {
+    font-family: "Noto Sans JP", sans-serif;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 14mm 14mm 12mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+  }
+  .head {
+    width: 100%;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 6mm;
+    padding: 7mm 0 8mm;
+  }
+  .head .big {
+    display: block;
+    font-size: 41mm;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+  }
+  .head .sub {
+    display: block;
+    font-size: 15mm;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.1em;
+  }
+  .lead {
+    font-size: 8.4mm;
+    font-weight: 700;
+    line-height: 1.55;
+  }
+  .dates {
+    width: 100%;
+    border: 2.2mm solid var(--blue);
+    border-radius: 6mm;
+    padding: 5mm 0 6mm;
+    background: var(--blue-pale);
+  }
+  .dates .d {
+    display: block;
+    font-size: 21mm;
+    font-weight: 900;
+    line-height: 1.22;
+    color: var(--blue-deep);
+    font-feature-settings: "palt";
+    white-space: nowrap;
+  }
+  .reopen {
+    font-size: 11mm;
+    font-weight: 900;
+    line-height: 1.4;
+    color: var(--blue-deep);
+    font-feature-settings: "palt";
+  }
+  .msg {
+    font-size: 7.2mm;
+    font-weight: 500;
+    line-height: 1.65;
+  }
+  .shop {
+    width: 100%;
+    border-top: 0.6mm solid var(--blue);
+    padding-top: 5mm;
+    font-size: 11mm;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: var(--blue);
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <h1 class="head"><span class="big">臨時休業</span><span class="sub">のお知らせ</span></h1>
+  <p class="lead">台風接近のため、<br>下記の日程を臨時休業とさせていただきます。</p>
+  <p class="dates"><span class="d">10月25日（日）・</span><span class="d">10月26日（月）</span></p>
+  <p class="reopen">10月27日（火）より<br>通常営業いたします。</p>
+  <p class="msg">お客様とスタッフの安全を考えての判断です。<br>ご迷惑をおかけいたしますが、<br>よろしくお願い申し上げます。</p>
+  <p class="shop">ファミリークリーニング</p>
+</main>
+</body>
+</html>

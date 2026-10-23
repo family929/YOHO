@@ -1,0 +1,73 @@
+.fc-typhoon {
+  max-width: 720px;
+  margin: 0 auto 2em;
+  padding: 1.6em 1.6em 0.6em;
+  background: #ffffff;
+  border: 3px solid #1f5fa8;
+  border-radius: 12px;
+  color: #1d2b3a;
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  font-size: 18px;
+  line-height: 1.85;
+  box-sizing: border-box;
+}
+.fc-typhoon p.fc-typhoon__text {
+  margin: 0 0 1em;
+  font-size: 1em;
+  line-height: 1.85;
+}
+.fc-typhoon .fc-typhoon__dates {
+  display: inline;
+  padding: 0.1em 0.25em;
+  background: linear-gradient(transparent 55%, #d6e6f7 55%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  color: #17487f;
+  font-size: 1.2em;
+  font-weight: 900;
+  font-feature-settings: "palt";
+}
+.fc-typhoon .fc-typhoon__nowrap {
+  white-space: nowrap;
+}
+.fc-typhoon .fc-typhoon__box {
+  margin: 0 0 1.2em;
+  padding: 0.9em 1.1em;
+  background: #f5f8fc;
+  border-left: 6px solid #9db8d9;
+  border-radius: 6px;
+}
+.fc-typhoon .fc-typhoon__box--reopen {
+  background: #eaf2fb;
+  border-left-color: #1f5fa8;
+}
+.fc-typhoon p.fc-typhoon__label {
+  margin: 0 0 0.2em;
+  color: #17487f;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.fc-typhoon p.fc-typhoon__boxtext {
+  margin: 0;
+  font-size: 1em;
+  line-height: 1.85;
+}
+.fc-typhoon .fc-typhoon__box--reopen p.fc-typhoon__boxtext {
+  font-size: 1.15em;
+  font-weight: 700;
+}
+.fc-typhoon .fc-typhoon__box--reopen strong {
+  color: #17487f;
+  font-weight: 900;
+}
+@media screen and (max-width: 480px) {
+  .fc-typhoon {
+    padding: 1.2em 1em 0.4em;
+    font-size: 17px;
+    border-width: 2px;
+  }
+  .fc-typhoon .fc-typhoon__box {
+    padding: 0.8em 0.9em;
+  }
+}
