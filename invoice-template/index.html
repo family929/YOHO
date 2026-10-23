@@ -133,6 +133,11 @@
     .bottom { margin-top: 0; }
     .bottom, .totals { break-inside: avoid; }
     .items tr { break-inside: avoid; }
+    /* 1枚に明細を多く収めるため、印刷では行と余白を少し詰める */
+    .items td { padding: .55mm 2mm; line-height: 1.35; }
+    .parties, .summary { margin-top: 4mm; }
+    h2.sec { margin-top: 3.5mm; }
+    .bottom { padding-top: 4mm; }
   }
   @media screen and (max-width: 820px) { /* スマホで見るとき（印刷には影響なし） */
     .sheet { zoom: .46; margin: 4mm auto; }
